@@ -29,7 +29,10 @@
     letter-spacing: 1px;
     margin: 0;
   }
-  
+  div input {
+    display: none;
+  }
+
   h3 {
     border-bottom: 1px solid #bbb;
     padding-bottom: 10px;
@@ -40,6 +43,28 @@
     margin: 0;
     text-transform: uppercase;
   }
+
+  #btns{
+    display: flex;
+    gap: 17px;
+  }
+
+
+#incom:checked ~ .btnns #inc{
+  color:#5feb99;
+  background-color: #365c4b;
+  /* padding: 10px 15px 12px 15px; */
+  
+}
+
+
+#expen:checked ~ .btnns #exp{
+    color:rgb(255, 119, 119);
+    background-color: #5c3636;
+    /* padding: 10px 15px 12px 15px; */
+    
+}
+
   
   .inc-exp-container {
     background-color: #efeeee;

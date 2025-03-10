@@ -25,6 +25,10 @@ ul {
     padding-inline-start: 0px;
 }
 
+.btns{
+    display: flex;
+    gap: 17px;
+}
 
 ._nav {
     background-color:#6aafb7;

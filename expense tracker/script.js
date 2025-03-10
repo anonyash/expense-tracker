@@ -31,17 +31,30 @@ const balance = document.getElementById(
   function addTransaction(e){
     e.preventDefault();
     if(text.value.trim() === '' || amount.value.trim() === ''){
-      alert('please add text and amount')
-    }else{
-      const transaction = {
-        id:generateID(),
-        text:text.value,
-        amount:+amount.value
+      alert('please add category and amount')
+    }else if(amount.value < 0){ alert('please enter a valid amount') }else{
+      let togg = document.getElementById('expen');
+      let sig = togg.checked? "-" : "+";
+      if(sig == "-"){
+        const transaction = {
+          id:generateID(),
+          text:text.value,
+          amount: -amount.value,
+          sig:"-"
+        }
+        console.log(transaction)
+        transactions.push(transaction);
+        addTransactionDOM(transaction);}else{
+        const transaction = {
+          id:generateID(),
+          text:text.value,
+          amount: +amount.value,
+          sig:"+"
+        }
+        transactions.push(transaction);
+        addTransactionDOM(transaction);
       }
-  
-      transactions.push(transaction);
-  
-      addTransactionDOM(transaction);
+        
       updateValues();
       updateLocalStorage();
       text.value='';
@@ -58,15 +71,53 @@ const balance = document.getElementById(
   
   //2
   
-  //Add Trasactions to DOM list
-  function addTransactionDOM(transaction) {
+  
+  function toggl(){
+  let togg = document.getElementById('expen');
+  console.log(togg.checked);
+  }
+
+  let sig2
+
+  function updTransactionDOM(transaction) {
+    
     //GET sign
-    const sign = transaction.amount < 0 ? "-" : "+";
+    let sign2 = sig2[0];
     const item = document.createElement("li");
   
     //Add Class Based on Value
     item.classList.add(
-      transaction.amount < 0 ? "minus" : "plus"
+      sig2[0] =="-"? "minus" : "plus"
+    );
+    console.log( item.classList)
+    item.innerHTML = `
+      ${transaction.text} <span>${sign2}${Math.abs(
+      transaction.amount
+    )}</span>
+      <button class="delete-btn" onclick="removeTransaction(${transaction.id})">x</button>
+      `;
+    list.appendChild(item);
+    sig2.shift();
+  }
+
+
+
+
+
+
+  let togg = document.getElementById('expen');
+  let tru = togg.checked
+  let sig = tru? "-" : "+";
+  //Add Trasactions to DOM list
+  function addTransactionDOM(transaction) {
+    
+    //GET sign
+    const sign = sig;
+    const item = document.createElement("li");
+  
+    //Add Class Based on Value
+    item.classList.add(
+      togg.checked? "minus" : "plus"
     );
   
     item.innerHTML = `
@@ -97,10 +148,14 @@ const balance = document.getElementById(
         .filter((item) => item < 0)
         .reduce((acc, item) => (acc += item), 0) *
       -1).toFixed(2);
-  
-      balance.innerText=`$${total}`;
-      money_plus.innerText = `$${income}`;
-      money_minus.innerText = `$${expense}`;
+    sig2 = transactions.map(
+        (transaction) => transaction.sig
+    );
+
+      console.log(sig2)
+      balance.innerText=`₹${total}`;
+      money_plus.innerText = `₹${income}`;
+      money_minus.innerText = `₹${expense}`;
   }
   
   
@@ -123,8 +178,10 @@ const balance = document.getElementById(
   //Init App
   function Init() {
     list.innerHTML = "";
-    transactions.forEach(addTransactionDOM);
     updateValues();
+    transactions.forEach(updTransactionDOM);
+    
+    
   }
   
   Init();
