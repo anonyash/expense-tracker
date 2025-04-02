@@ -27,7 +27,7 @@ const balance = document.getElementById(
   let transactions = localStorage.getItem('transactions') !== null ? localStorageTransactions : [];
   
   //5
-  let cur = "$" //"₹"
+  let cur = "₹" //   "$"    "₹"
  
 
 
